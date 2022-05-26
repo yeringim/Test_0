@@ -84,7 +84,7 @@ namespace Test_0
             //def(def_distance_k);
 
             FindViewById<Button>(Resource.Id.button1).Click += (o, e) =>
-           SetContentView(Resource.Layout.login);
+           SetContentView(Resource.Layout.activity_login);
 
 
 

@@ -111,7 +111,12 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\login.xml">
+    <AndroidResource Include="Resources\layout\activity_login.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_register.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
