@@ -1,39 +1,68 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using Android.Views;
+using AndroidX.AppCompat.App;
 using Android.Widget;
+using Android.Gms.Maps;
+using Android.Gms.Location;
+using Xamarin.Essentials;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Android.Gms.Tasks;
+using Android.Gms.Maps.Model;
 
 
 
 namespace Test_0
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : Activity
+    public class MainActivity : AppCompatActivity
     {
-        protected override async void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
+        EditText userName;
+        EditText password;
+        Button loginButton;
 
-            // Set our view from the "main" layout resource
+        protected override async void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+
             SetContentView(Resource.Layout.activity_login);
 
-            // 로그인 버튼 클릭하면 맵 화면으로 이동
-            //FindViewById<Button>(Resource.Id.btnLogin).Click += (o, e) =>
-            //SetContentView(Resource.Layout.activity_main);
+            userName = FindViewById<EditText>(Resource.Id.editUsername);
+            password = FindViewById<EditText>(Resource.Id.editPassword);
+            loginButton = FindViewById<Button>(Resource.Id.btnLogin);
+
+            loginButton.Click += LoginClicked;
 
             // 회원가입 버튼 클릭하면 회원가입 화면으로 이동
             FindViewById<Button>(Resource.Id.btnRegister).Click += (o, e) =>
             SetContentView(Resource.Layout.activity_register);
-
         }
 
 
+        //DB 사용 https://junseo-studybook.tistory.com/24
+
+
+
+        // https://www.c-sharpcorner.com/article/login-and-registration-functionality-in-xamarin-android/
+        // 로그인
+        private void LoginClicked(object sender, EventArgs e)
+        {
+            if (userName.Text == "이름" && password.Text == "12345")
+            {
+                // 로그인 성공 메시지
+                Toast.MakeText(this, "Login successfully done!", ToastLength.Long).Show();
+
+                // 성공 -> 맵 화면으로 전환
+                SetContentView(Resource.Layout.activity_main);
+            }
+            else
+            {
+                // 로그인 실패  메시지
+                Toast.MakeText(this, "Wrong credentials found!", ToastLength.Long).Show();
+            }
+        }
 
 
         // http://son10001.blogspot.com/2017/03/xamarin-android.html
