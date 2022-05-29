@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="MapActivity.cs" />
+    <Compile Include="RegisterActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

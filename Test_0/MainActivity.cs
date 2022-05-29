@@ -52,7 +52,7 @@ namespace Test_0
             if (userName.Text == "이름" && password.Text == "12345")
             {
                 // 로그인 성공 메시지
-                Toast.MakeText(this, "Login successfully done!", ToastLength.Long).Show();
+                Toast.MakeText(this, "Login successfully done!", ToastLength.Short).Show();
 
                 // 성공 -> 맵 화면으로 전환
                 SetContentView(Resource.Layout.activity_main);
@@ -67,22 +67,24 @@ namespace Test_0
 
         // http://son10001.blogspot.com/2017/03/xamarin-android.html
         // 뒤로가기 버튼으로 종료 막기
-        public override void OnBackPressed()
-        {
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+        //public override void OnBackPressed()
+        //{
+        //    Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
 
-            builder.SetPositiveButton("확인", (senderAlert, args) => {
-                Finish();
-            });
+        //    builder.SetPositiveButton("확인", (senderAlert, args) => {
+        //        Finish();
+        //    });
 
-            builder.SetNegativeButton("취소", (senderAlert, args) => {
-                return;
-            });
+        //    builder.SetNegativeButton("취소", (senderAlert, args) => {
+        //        return;
+        //    });
 
-            Android.App.AlertDialog alterDialog = builder.Create();
-            alterDialog.SetTitle("알림");
-            alterDialog.SetMessage("프로그램을 종료 하시겠습니까?");
-            alterDialog.Show();
-        }
+        //    Android.App.AlertDialog alterDialog = builder.Create();
+        //    alterDialog.SetTitle("알림");
+        //    alterDialog.SetMessage("프로그램을 종료 하시겠습니까?");
+        //    alterDialog.Show();
+        //}
+
+
     }
 }
