@@ -28,6 +28,7 @@ namespace Test_0
         public static IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9000);
         public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
+
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -43,6 +44,7 @@ namespace Test_0
             registerButton.Click += RegisterClicked;
         }
 
+
         private void Receiver()
         {
             byte[] buf = new byte[1024];
@@ -55,12 +57,16 @@ namespace Test_0
                 string mode = data.Substring(0, 3);
                 string realdata = data.Substring(3);
 
+                // 클라이언트가 받을 값
                 if (mode == null)
                 {
-                    //AbsSesdf(mode, realdata);
+                    //Login(mode, realdata);
                 }
+
+                Array.Clear(buf, 0, buf.Length);  // 버퍼 초기화시키는
             }
         }
+
 
         public static void DataBroadCast(byte[] mode, byte[] data)
         {
@@ -70,12 +76,14 @@ namespace Test_0
             socket.Send(temp);
         }
 
+
         // 회원가입
         private void RegisterClicked(object sender, EventArgs e)
         {
             socket.Connect(ip);
             new Thread(Receiver).Start();
 
+            // 클라이언트에서 보낼값: DataBroadCast
             DataBroadCast(Encoding.Unicode.GetBytes(userName.Text), Encoding.Unicode.GetBytes(password.Text));
         }
     }

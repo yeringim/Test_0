@@ -27,6 +27,7 @@ namespace Test_0
         public static IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9000);
         public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); 
 
+
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -46,24 +47,29 @@ namespace Test_0
             SetContentView(Resource.Layout.activity_register);
         }
 
+
         private void Receiver()
         {
-            byte[] buf = new byte[1024];
+            byte[] buffer = new byte[1024];
             String data;
 
             while (true)
             {
-                socket.Receive(buf);
-                data = Encoding.Unicode.GetString(buf);
+                socket.Receive(buffer);
+                data = Encoding.Unicode.GetString(buffer);
                 string mode = data.Substring(0, 3);
                 string realdata = data.Substring(3);
 
-                if (mode == null)
+                // 클라이언트가 받을 값
+                if (mode == "LOG")  // LOG: 로그인 버튼 눌렀을 때 사용자이름, 비빌번호 전달 
                 {
-                    //AbsSesdf(mode, realdata);
+                    Login(mode, realdata);
                 }
+
+                Array.Clear(buffer, 0, buffer.Length);  // 버퍼 초기화시키는
             }
         }
+
 
         public static void DataBroadCast(byte[] mode, byte[] data)
         {
@@ -73,15 +79,18 @@ namespace Test_0
             socket.Send(temp);
         }
 
-        // https://www.c-sharpcorner.com/article/login-and-registration-functionality-in-xamarin-android/
+
         // 로그인
-        private void LoginClicked(object sender, EventArgs e)
+        private void LoginClicked(object sender, EventArgs e)   // 로그인 버튼 클릭하면
         {
             socket.Connect(ip);
             new Thread(Receiver).Start();
 
+            // 클라이언트에서 보낼값: DataBroadCast
             DataBroadCast(Encoding.Unicode.GetBytes(userName.Text), Encoding.Unicode.GetBytes(password.Text));
-            if (userName.Text == "이름" && password.Text == "12345")      // 임의로 사용자 이름과 비밀번호를 지정해줌(나중에 지우기)
+
+            // 여기에서 로그인 성공 실패 판단하고싶은데,
+            if ()  // 로그인 성공하면
             {
                 // 로그인 성공 메시지
                 Toast.MakeText(this, "Login successfully done!", ToastLength.Short).Show();
@@ -89,12 +98,40 @@ namespace Test_0
                 // 성공 -> 맵 화면으로 전환
                 SetContentView(Resource.Layout.activity_main);
             }
-            else
+            else    // 로그인 실패하면
             {
                 // 로그인 실패  메시지
                 Toast.MakeText(this, "Wrong credentials found!", ToastLength.Long).Show();
             }
         }
+
+        // 여기에서 로그인 성공 실패 판단해야하나요?
+        public static void Login(string mode, string realdata)
+        {
+            if (mode == "LOG")
+            {
+                string judge = LoginCheck(realdata);        //로그인 성공 실패 기능
+
+                if (judge == "ACL")  // 로그인 성공 시 
+                {
+                    //server[idx].Send(Encoding.Unicode.GetBytes(judge));
+
+                    // 화면에 로그인 성공 메시지 띄우기
+                    Toast.MakeText(this, "Login successfully done!", ToastLength.Short).Show();
+
+                    // 성공 -> 맵 화면으로 전환
+                    SetContentView(Resource.Layout.activity_main);
+                }
+                else if (judge == "FAL")    // 로그인 실패 시
+                {
+                    //server[idx].Send(Encoding.Unicode.GetBytes(judge));
+
+                    // 화면에 로그인 실패  메시지 띄우기
+                    Toast.MakeText(this, "Wrong credentials found!", ToastLength.Long).Show();
+                }
+            }
+        }
+
 
 
         // http://son10001.blogspot.com/2017/03/xamarin-android.html
@@ -116,7 +153,5 @@ namespace Test_0
         //    alterDialog.SetMessage("프로그램을 종료 하시겠습니까?");
         //    alterDialog.Show();
         //}
-
-
     }
 }
